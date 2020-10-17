@@ -1,14 +1,13 @@
 # object-detection-using-tensorflow-API(don't forgot to change runtime to gpu)
   
 
-At first we have toinstall some libraries that are not present on google colab
+# At first i have installed some libraries that are not present on google colab
   
 !pip install tensorflow-gpu
   
-
 !pip install trains
   
-Now i have clone my repositories to colab
+# then i have cloneed my repositories to colab
   
 !git clone --depth 1 https://github.com/sachin327/models
   
@@ -33,10 +32,9 @@ cp object_detection/packages/tf2/setup.py .
   
 python -m pip install .
   
-save your training image to '//content/workspace/training_demo/images/train' directory and test images to '//content/workspace/training_demo/images/test'
-with annotations file with them .xml format
+# save your training image to '//content/workspace/training_demo/images/train' directory and test images to '//content/workspace/training_demo/images/test' with annotations file with them .xml format
   
-Go to scripts directory
+#Go to scripts directory
   
 %cd '//content/scripts/preprocessing'
   
@@ -46,21 +44,21 @@ calling scripts(to save .record file to annotations folder)
   
 !python generate_tfrecord.py -x '//content/workspace/training_demo/images/test' -l '//content/workspace/training_demo/annotations/label_map.pbtxt' -o 
   
-Then we have to download our model from(tensorflow zoo)
+# Then i have downloaded a model from(tensorflow zoo)
   
 !wget -nc 'http://download.tensorflow.org/models/object_detection/tf2/20200711/ssd_mobilenet_v2_320x320_coco17_tpu-8.tar.gz' -O ./models/ssd_mobilenet_v2_320x320_coco17_tpu-8.tar.gz
   
-save our maodel to training_demo/models folder
+# save our maodel to training_demo/models folder
   
 %cd '//content/workspace/training_demo'
   
 !tar -xvf  ./models/ssd_mobilenet_v2_320x320_coco17_tpu-8.tar.gz -C ./pre-trained-model
   
-copy pipline.conif file
+# copy pipline.conif file
   
 cp ./pre-trained-model/ssd_mobilenet_v2_320x320_coco17_tpu-8/pipeline.config ./models/my_ssd_mobilenet_v2
   
-Now its time to make some changes to this file
+# Now its time to make some changes to this file
   
 Now its time to update your '//content/workspace/training_demo/models/my_ssd_mobilenet_v2/pipline.config' file
   
@@ -83,12 +81,27 @@ first open your file
     1. label_map_path: "annotations/label_map.pbtxt"
     2. input_path: "annotations/test.record
   
-# training model
+# Training model
   
 !python model_main_tf2.py --model_dir=models/my_ssd_mobilenet_v2 --pipeline_config_path=models/my_ssd_mobilenet_v2/pipeline.config
   
-Save our model
+# Save our model
   
 !python ./exporter_main_v2.py --input_type=image_tensor --pipeline_config_path=./models/my_ssd_mobilenet_v2/pipeline.config --trained_checkpoint_dir=./models/my_ssd_mobilenet_v2/ --output_directory=./exported-model/my_model
   
+# This is our test result
+  
+![alt text](https://github.com/sachin327/object-detection-using-tensorflow-API/blob/main/images/test_1.png)
+  
+![alt text](https://github.com/sachin327/object-detection-using-tensorflow-API/blob/main/images/test_2.png)
+  
+![alt text](https://github.com/sachin327/object-detection-using-tensorflow-API/blob/main/images/test_3.png)
+  
+![alt text](https://github.com/sachin327/object-detection-using-tensorflow-API/blob/main/images/test_4.png)
+  
+![alt text](https://github.com/sachin327/object-detection-using-tensorflow-API/blob/main/images/test_5.png)
+  
 
+# Now you can download your model to run it on your desktop
+  
+![alt text](https://github.com/sachin327/object-detection-using-tensorflow-API/blob/main/images/download.png)
